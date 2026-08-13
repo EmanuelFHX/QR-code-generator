@@ -5,6 +5,15 @@ import QRCode from "qrcode";
 
 type ContentType = "link" | "texto" | "telefone" | "email" | "wifi" | "outro";
 type DotShape = "square" | "rounded" | "circle" | "extra";
+type Theme = "dark" | "light";
+type ErrorCorrection = "L" | "M" | "Q" | "H";
+
+const errorLevels: Array<{ id: ErrorCorrection; label: string; description: string }> = [
+  { id: "L", label: "Baixa", description: "Mais simples" },
+  { id: "M", label: "Media", description: "Equilibrada" },
+  { id: "Q", label: "Alta", description: "Mais segura" },
+  { id: "H", label: "Maxima", description: "Ideal com logo" },
+];
 
 const contentTypes: Array<{ id: ContentType; label: string; icon: string }> = [
   { id: "link", label: "Link", icon: "↗" },
@@ -93,6 +102,12 @@ export default function Home() {
   const [size, setSize] = useState(350);
   const [includeLogo, setIncludeLogo] = useState(true);
   const [copied, setCopied] = useState(false);
+  const [theme, setTheme] = useState<Theme>("dark");
+  const [showHelp, setShowHelp] = useState(false);
+  const [showAdvanced, setShowAdvanced] = useState(false);
+  const [errorCorrection, setErrorCorrection] = useState<ErrorCorrection>("H");
+  const [quietZone, setQuietZone] = useState(8);
+  const [shadowStrength, setShadowStrength] = useState(18);
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   const encodedValue = useMemo(() => {
@@ -103,6 +118,17 @@ export default function Home() {
   }, [contentType, value]);
 
   useEffect(() => {
+    const storedTheme = window.localStorage.getItem("qr-theme");
+    if (storedTheme === "light" || storedTheme === "dark") {
+      setTheme(storedTheme);
+    }
+  }, []);
+
+  useEffect(() => {
+    window.localStorage.setItem("qr-theme", theme);
+  }, [theme]);
+
+  useEffect(() => {
     let isActive = true;
 
     async function renderQr() {
@@ -110,7 +136,7 @@ export default function Home() {
       if (!canvas) return;
 
       const generated = QRCode.create(encodedValue, {
-        errorCorrectionLevel: includeLogo ? "H" : "Q",
+        errorCorrectionLevel: includeLogo && errorCorrection !== "H" ? "H" : errorCorrection,
         margin: 0,
       });
 
@@ -119,7 +145,7 @@ export default function Home() {
 
       const pixelRatio = window.devicePixelRatio || 1;
       const canvasSize = size * pixelRatio;
-      const padding = Math.round(size * 0.08) * pixelRatio;
+      const padding = Math.round(size * (quietZone / 100)) * pixelRatio;
       const count = generated.modules.size;
       const usable = canvasSize - padding * 2;
       const cell = usable / count;
@@ -132,7 +158,7 @@ export default function Home() {
 
       ctx.fillStyle = bgColor;
       ctx.fillRect(0, 0, canvasSize, canvasSize);
-      ctx.shadowColor = `rgba(${r}, ${g}, ${b}, 0.18)`;
+      ctx.shadowColor = `rgba(${r}, ${g}, ${b}, ${shadowStrength / 100})`;
       ctx.shadowBlur = cell * 0.22;
 
       for (let row = 0; row < count; row += 1) {
@@ -182,7 +208,7 @@ export default function Home() {
     return () => {
       isActive = false;
     };
-  }, [encodedValue, qrColor, bgColor, shape, size, includeLogo]);
+  }, [encodedValue, qrColor, bgColor, shape, size, includeLogo, errorCorrection, quietZone, shadowStrength]);
 
   function changeType(type: ContentType) {
     setContentType(type);
@@ -216,8 +242,18 @@ export default function Home() {
     });
   }
 
+  function toggleTheme() {
+    setTheme((current) => (current === "dark" ? "light" : "dark"));
+  }
+
+  function resetAdvanced() {
+    setErrorCorrection("H");
+    setQuietZone(8);
+    setShadowStrength(18);
+  }
+
   return (
-    <main className="min-h-screen overflow-hidden bg-[#060b14] text-white">
+    <main className={`app-shell min-h-screen overflow-hidden text-white ${theme === "light" ? "is-light" : ""}`}>
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_0%,rgba(37,99,235,0.18),transparent_28%),radial-gradient(circle_at_82%_12%,rgba(124,58,237,0.14),transparent_30%)]" />
       <section className="relative mx-auto flex min-h-screen w-full max-w-[1480px] flex-col gap-8 px-6 py-8 lg:px-8">
         <header className="flex flex-wrap items-center justify-between gap-5">
@@ -231,9 +267,24 @@ export default function Home() {
             </div>
           </div>
           <div className="flex items-center gap-4">
-            <button className="icon-button" aria-label="Tema claro">☼</button>
-            <button className="theme-toggle" aria-label="Tema escuro">●</button>
-            <button className="help-button">ⓘ Como funciona?</button>
+            <button
+              className="icon-button"
+              aria-label={theme === "dark" ? "Ativar tema claro" : "Ativar tema escuro"}
+              title={theme === "dark" ? "Ativar tema claro" : "Ativar tema escuro"}
+              onClick={toggleTheme}
+            >
+              {theme === "dark" ? "☼" : "☾"}
+            </button>
+            <button
+              className={`theme-toggle ${theme === "light" ? "is-light" : ""}`}
+              aria-label={theme === "dark" ? "Ativar tema claro" : "Ativar tema escuro"}
+              aria-pressed={theme === "light"}
+              title={theme === "dark" ? "Ativar tema claro" : "Ativar tema escuro"}
+              onClick={toggleTheme}
+            >
+              <span />
+            </button>
+            <button className="help-button" onClick={() => setShowHelp(true)}>ⓘ Como funciona?</button>
           </div>
         </header>
 
@@ -324,7 +375,74 @@ export default function Home() {
               </div>
             </Panel>
 
-            <button className="advanced-button">⚙ Opções avançadas <span>⌄</span></button>
+            <section className={`advanced-panel ${showAdvanced ? "is-open" : ""}`}>
+              <button
+                className="advanced-button"
+                aria-expanded={showAdvanced}
+                aria-controls="advanced-options"
+                onClick={() => setShowAdvanced((current) => !current)}
+              >
+                <span>⚙ Opções avançadas</span>
+                <span className="advanced-chevron">⌄</span>
+              </button>
+
+              {showAdvanced ? (
+                <div id="advanced-options" className="advanced-content">
+                  <div>
+                    <div className="advanced-row-title">
+                      <span>Correção de erro</span>
+                      <small>{includeLogo ? "Maxima aplicada por causa do logo" : "Define a tolerancia de leitura"}</small>
+                    </div>
+                    <div className="error-grid">
+                      {errorLevels.map((level) => (
+                        <button
+                          key={level.id}
+                          className={`error-button ${errorCorrection === level.id ? "is-active" : ""}`}
+                          onClick={() => setErrorCorrection(level.id)}
+                        >
+                          <strong>{level.label}</strong>
+                          <span>{level.description}</span>
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  <label className="advanced-slider">
+                    <span>
+                      Margem de leitura
+                      <strong>{quietZone}%</strong>
+                    </span>
+                    <input
+                      className="range"
+                      type="range"
+                      min="4"
+                      max="16"
+                      value={quietZone}
+                      onChange={(event) => setQuietZone(Number(event.target.value))}
+                    />
+                  </label>
+
+                  <label className="advanced-slider">
+                    <span>
+                      Brilho dos pontos
+                      <strong>{shadowStrength}%</strong>
+                    </span>
+                    <input
+                      className="range"
+                      type="range"
+                      min="0"
+                      max="40"
+                      value={shadowStrength}
+                      onChange={(event) => setShadowStrength(Number(event.target.value))}
+                    />
+                  </label>
+
+                  <button className="reset-button" onClick={resetAdvanced}>
+                    Restaurar padrao
+                  </button>
+                </div>
+              ) : null}
+            </section>
           </div>
 
           <section className="preview-panel">
@@ -356,6 +474,31 @@ export default function Home() {
           </section>
         </div>
       </section>
+
+      {showHelp ? (
+        <div className="help-overlay" role="presentation" onClick={() => setShowHelp(false)}>
+          <section
+            className="help-modal"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="help-title"
+            onClick={(event) => event.stopPropagation()}
+          >
+            <div className="flex items-start justify-between gap-4">
+              <div>
+                <h2 id="help-title">Como funciona?</h2>
+                <p>Preencha o conteúdo, ajuste o visual e use o preview para testar antes de baixar.</p>
+              </div>
+              <button aria-label="Fechar ajuda" onClick={() => setShowHelp(false)}>×</button>
+            </div>
+            <ol>
+              <li>Escolha o tipo de QR Code e edite o campo principal.</li>
+              <li>Personalize cor, fundo, formato dos pontos, logo e tamanho.</li>
+              <li>Escaneie o preview. Depois baixe o PNG ou copie a imagem.</li>
+            </ol>
+          </section>
+        </div>
+      ) : null}
     </main>
   );
 }

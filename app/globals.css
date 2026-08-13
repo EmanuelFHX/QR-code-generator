@@ -32,6 +32,16 @@ button {
   cursor: pointer;
 }
 
+.app-shell {
+  background: #060b14;
+  transition: background 180ms ease, color 180ms ease;
+}
+
+.app-shell.is-light {
+  background: #f6f8fc;
+  color: #0f172a;
+}
+
 .control-panel,
 .preview-panel,
 .advanced-button {
@@ -106,10 +116,27 @@ button {
 }
 
 .theme-toggle {
+  display: flex;
+  align-items: center;
   width: 62px;
   border-radius: 999px;
   background: #111827;
-  font-size: 22px;
+  padding: 0 8px;
+}
+
+.theme-toggle span {
+  display: block;
+  width: 12px;
+  height: 12px;
+  border-radius: 999px;
+  background: #ffffff;
+  box-shadow: 0 0 16px rgba(255, 255, 255, 0.5);
+  transition: transform 180ms ease, background 180ms ease;
+}
+
+.theme-toggle.is-light span {
+  transform: translateX(28px);
+  background: #2563eb;
 }
 
 .help-button {
@@ -283,6 +310,123 @@ button {
   font-weight: 800;
 }
 
+.advanced-panel {
+  overflow: hidden;
+  border-radius: 8px;
+}
+
+.advanced-panel.is-open {
+  border: 1px solid rgba(148, 163, 184, 0.16);
+  background: linear-gradient(145deg, rgba(15, 23, 42, 0.74), rgba(2, 6, 23, 0.76));
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03), 0 18px 45px rgba(0, 0, 0, 0.18);
+  backdrop-filter: blur(22px);
+}
+
+.advanced-panel.is-open .advanced-button {
+  border: 0;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.14);
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.advanced-chevron {
+  transition: transform 160ms ease;
+}
+
+.advanced-panel.is-open .advanced-chevron {
+  transform: rotate(180deg);
+}
+
+.advanced-content {
+  display: grid;
+  gap: 18px;
+  padding: 20px 24px 24px;
+}
+
+.advanced-row-title {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.advanced-row-title span,
+.advanced-slider > span {
+  color: #f8fafc;
+  font-size: 15px;
+  font-weight: 800;
+}
+
+.advanced-row-title small {
+  color: #94a3b8;
+  font-size: 12px;
+  text-align: right;
+}
+
+.error-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.error-button {
+  min-height: 64px;
+  border: 1px solid rgba(148, 163, 184, 0.18);
+  border-radius: 8px;
+  background: rgba(15, 23, 42, 0.62);
+  color: #dbe4f0;
+  padding: 10px;
+  text-align: left;
+}
+
+.error-button strong,
+.error-button span {
+  display: block;
+}
+
+.error-button strong {
+  color: #f8fafc;
+  font-size: 14px;
+}
+
+.error-button span {
+  margin-top: 4px;
+  color: #94a3b8;
+  font-size: 12px;
+}
+
+.error-button.is-active {
+  border-color: #8b5cf6;
+  background: linear-gradient(145deg, rgba(37, 99, 235, 0.18), rgba(124, 58, 237, 0.12));
+  box-shadow: 0 0 0 1px rgba(14, 165, 233, 0.28);
+}
+
+.advanced-slider {
+  display: grid;
+  gap: 9px;
+}
+
+.advanced-slider > span {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.advanced-slider strong {
+  color: #a78bfa;
+}
+
+.reset-button {
+  min-height: 44px;
+  border: 1px solid rgba(148, 163, 184, 0.22);
+  border-radius: 8px;
+  background: rgba(15, 23, 42, 0.72);
+  color: #f8fafc;
+  font-weight: 800;
+}
+
 .test-button,
 .download-button {
   border-color: rgba(124, 58, 237, 0.72);
@@ -340,6 +484,138 @@ button {
   min-height: 62px;
 }
 
+.help-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 30;
+  display: grid;
+  place-items: center;
+  background: rgba(2, 6, 23, 0.64);
+  padding: 24px;
+  backdrop-filter: blur(12px);
+}
+
+.help-modal {
+  width: min(100%, 520px);
+  border: 1px solid rgba(148, 163, 184, 0.22);
+  border-radius: 8px;
+  background: #0b1220;
+  box-shadow: 0 28px 80px rgba(0, 0, 0, 0.45);
+  padding: 24px;
+  color: #f8fafc;
+}
+
+.help-modal h2 {
+  font-size: 24px;
+  font-weight: 800;
+}
+
+.help-modal p {
+  margin-top: 6px;
+  color: #cbd5e1;
+  line-height: 1.55;
+}
+
+.help-modal button {
+  display: grid;
+  width: 36px;
+  height: 36px;
+  place-items: center;
+  border: 1px solid rgba(148, 163, 184, 0.22);
+  border-radius: 8px;
+  background: rgba(15, 23, 42, 0.72);
+  color: inherit;
+  font-size: 22px;
+}
+
+.help-modal ol {
+  margin-top: 22px;
+  display: grid;
+  gap: 12px;
+  padding-left: 22px;
+  color: #e2e8f0;
+  line-height: 1.55;
+}
+
+.app-shell.is-light .control-panel,
+.app-shell.is-light .preview-panel,
+.app-shell.is-light .advanced-button,
+.app-shell.is-light .advanced-panel.is-open {
+  border-color: rgba(37, 99, 235, 0.14);
+  background: rgba(255, 255, 255, 0.86);
+  box-shadow: 0 18px 45px rgba(15, 23, 42, 0.08);
+}
+
+.app-shell.is-light .control-panel p,
+.app-shell.is-light .text-slate-300,
+.app-shell.is-light .text-slate-400 {
+  color: #475569;
+}
+
+.app-shell.is-light .field-label,
+.app-shell.is-light .control-panel h2 {
+  color: #0f172a;
+}
+
+.app-shell.is-light .type-button,
+.app-shell.is-light .shape-button,
+.app-shell.is-light .text-input-wrap,
+.app-shell.is-light .color-field,
+.app-shell.is-light .size-box,
+.app-shell.is-light .secondary-button,
+.app-shell.is-light .copy-button,
+.app-shell.is-light .help-button,
+.app-shell.is-light .theme-toggle {
+  background: rgba(255, 255, 255, 0.84);
+  color: #0f172a;
+}
+
+.app-shell.is-light .advanced-panel.is-open .advanced-button {
+  background: transparent;
+  box-shadow: none;
+}
+
+.app-shell.is-light .advanced-row-title span,
+.app-shell.is-light .advanced-slider > span,
+.app-shell.is-light .error-button strong {
+  color: #0f172a;
+}
+
+.app-shell.is-light .advanced-row-title small,
+.app-shell.is-light .error-button span {
+  color: #64748b;
+}
+
+.app-shell.is-light .error-button,
+.app-shell.is-light .reset-button {
+  background: rgba(255, 255, 255, 0.84);
+  color: #0f172a;
+}
+
+.app-shell.is-light .text-input-wrap input,
+.app-shell.is-light .color-field input:not([type]),
+.app-shell.is-light .size-box input {
+  color: #0f172a;
+}
+
+.app-shell.is-light .icon-button {
+  color: #2563eb;
+}
+
+.app-shell.is-light .help-modal {
+  background: #ffffff;
+  color: #0f172a;
+}
+
+.app-shell.is-light .help-modal p,
+.app-shell.is-light .help-modal ol {
+  color: #475569;
+}
+
+.app-shell.is-light .help-modal button {
+  background: #f8fafc;
+}
+
 @media (max-width: 780px) {
   .control-panel,
   .preview-panel {
@@ -357,5 +633,22 @@ button {
 
   .help-button {
     padding: 0 12px;
+  }
+
+  .advanced-content {
+    padding: 16px;
+  }
+
+  .error-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .advanced-row-title {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .advanced-row-title small {
+    text-align: left;
   }
 }
