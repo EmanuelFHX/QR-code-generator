@@ -15,7 +15,7 @@ Crie QR Codes para links, textos, telefones, e-mails, Wi-Fi e outros conteúdos,
 ![React](https://img.shields.io/badge/React-19-61DAFB?logo=react\&logoColor=black)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?logo=typescript\&logoColor=white)
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4-06B6D4?logo=tailwindcss\&logoColor=white)
-![Vinext](https://img.shields.io/badge/Vinext-1.0-111827)
+![Vite](https://img.shields.io/badge/Vite-8-646CFF?logo=vite&logoColor=white)
 
 </div>
 
@@ -157,13 +157,13 @@ Preview em tempo real
 
 ## 🛠️ Tecnologias
 
-**React, TypeScript, Vinext, Tailwind CSS, qrcode**
+**React, TypeScript, Vite, Tailwind CSS, qrcode**
 
 ### Front-end
 
 * React
 * TypeScript
-* Vinext
+* Vite
 * Tailwind CSS
 
 ### Geração de QR Code
@@ -201,7 +201,7 @@ npm run dev
 ### 5. Acesse no navegador
 
 ```text
-http://localhost:3000
+http://localhost:5173
 ```
 
 ---
