@@ -1,0 +1,361 @@
+@import "tailwindcss";
+
+:root {
+  --background: #060b14;
+  --foreground: #f8fafc;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--background);
+  color: var(--foreground);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+button,
+input {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+.control-panel,
+.preview-panel,
+.advanced-button {
+  border: 1px solid rgba(148, 163, 184, 0.16);
+  background: linear-gradient(145deg, rgba(15, 23, 42, 0.74), rgba(2, 6, 23, 0.76));
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03), 0 18px 45px rgba(0, 0, 0, 0.18);
+  backdrop-filter: blur(22px);
+}
+
+.control-panel {
+  border-radius: 8px;
+  padding: 24px;
+}
+
+.control-panel h2 {
+  font-size: 20px;
+  font-weight: 800;
+  letter-spacing: 0;
+}
+
+.control-panel p {
+  margin-top: 4px;
+  color: #cbd5e1;
+  font-size: 15px;
+}
+
+.preview-panel {
+  display: flex;
+  min-height: 0;
+  flex-direction: column;
+  gap: 36px;
+  border-radius: 8px;
+  padding: 32px;
+}
+
+.icon-button,
+.theme-toggle,
+.help-button,
+.secondary-button,
+.test-button,
+.copy-button,
+.download-button,
+.advanced-button {
+  min-height: 44px;
+  border: 1px solid rgba(148, 163, 184, 0.22);
+  color: #f8fafc;
+  transition: border-color 160ms ease, background 160ms ease, transform 160ms ease;
+}
+
+.icon-button:hover,
+.theme-toggle:hover,
+.help-button:hover,
+.secondary-button:hover,
+.test-button:hover,
+.copy-button:hover,
+.download-button:hover,
+.advanced-button:hover,
+.type-button:hover,
+.shape-button:hover {
+  border-color: rgba(139, 92, 246, 0.72);
+  transform: translateY(-1px);
+}
+
+.icon-button {
+  display: grid;
+  width: 44px;
+  place-items: center;
+  border-color: transparent;
+  background: transparent;
+  color: #cbd5e1;
+  font-size: 24px;
+}
+
+.theme-toggle {
+  width: 62px;
+  border-radius: 999px;
+  background: #111827;
+  font-size: 22px;
+}
+
+.help-button {
+  border-radius: 8px;
+  background: rgba(15, 23, 42, 0.72);
+  padding: 0 18px;
+  font-weight: 700;
+}
+
+.type-button,
+.shape-button {
+  display: grid;
+  min-height: 70px;
+  place-items: center;
+  gap: 7px;
+  border: 1px solid rgba(148, 163, 184, 0.18);
+  border-radius: 8px;
+  background: rgba(15, 23, 42, 0.62);
+  color: #dbe4f0;
+  font-size: 14px;
+  transition: border-color 160ms ease, background 160ms ease, transform 160ms ease;
+}
+
+.type-button.is-active,
+.shape-button.is-active {
+  border-color: #8b5cf6;
+  background: linear-gradient(145deg, rgba(37, 99, 235, 0.18), rgba(124, 58, 237, 0.12));
+  box-shadow: 0 0 0 1px rgba(14, 165, 233, 0.35), inset 0 0 22px rgba(96, 165, 250, 0.08);
+  color: #a78bfa;
+}
+
+.field-label {
+  display: block;
+  color: #f8fafc;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.text-input-wrap,
+.color-field,
+.size-box {
+  display: flex;
+  min-height: 52px;
+  align-items: center;
+  gap: 12px;
+  border: 1px solid rgba(139, 92, 246, 0.7);
+  border-radius: 8px;
+  background: rgba(2, 6, 23, 0.46);
+  padding: 0 14px;
+}
+
+.text-input-wrap input,
+.color-field input[type="text"],
+.color-field input:not([type]),
+.size-box input {
+  min-width: 0;
+  flex: 1;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: #f8fafc;
+  font-weight: 700;
+}
+
+.text-input-wrap button {
+  border: 0;
+  background: transparent;
+  color: #cbd5e1;
+  font-size: 30px;
+  line-height: 1;
+}
+
+.color-field {
+  border-color: rgba(148, 163, 184, 0.16);
+}
+
+.color-field input[type="color"] {
+  width: 32px;
+  height: 32px;
+  flex: none;
+  overflow: hidden;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  padding: 0;
+}
+
+.shape-button {
+  min-height: 82px;
+}
+
+.shape-preview {
+  width: 23px;
+  height: 23px;
+  border: 3px solid currentColor;
+  box-shadow: 0 0 18px rgba(139, 92, 246, 0.32);
+}
+
+.shape-preview.square {
+  border-radius: 3px;
+}
+
+.shape-preview.rounded {
+  border-radius: 6px;
+}
+
+.shape-preview.circle {
+  border-radius: 999px;
+}
+
+.shape-preview.extra {
+  border-radius: 8px;
+}
+
+.logo-preview {
+  display: grid;
+  width: 78px;
+  height: 78px;
+  place-items: center;
+  border: 1px solid rgba(148, 163, 184, 0.28);
+  border-radius: 8px;
+  background: #fff;
+  color: #4f46e5;
+  font-size: 46px;
+  font-weight: 900;
+}
+
+.logo-preview.is-active {
+  box-shadow: 0 0 0 2px rgba(139, 92, 246, 0.55);
+}
+
+.secondary-button {
+  border-radius: 8px;
+  background: rgba(15, 23, 42, 0.72);
+  padding: 0 18px;
+  font-weight: 800;
+}
+
+.range {
+  width: 100%;
+  accent-color: #8b5cf6;
+}
+
+.size-box {
+  width: 122px;
+  border-color: rgba(148, 163, 184, 0.18);
+  padding-right: 0;
+}
+
+.size-box input {
+  text-align: center;
+  font-size: 18px;
+}
+
+.size-box span {
+  align-self: stretch;
+  display: grid;
+  width: 42px;
+  place-items: center;
+  border-left: 1px solid rgba(148, 163, 184, 0.14);
+  color: #cbd5e1;
+}
+
+.advanced-button {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 8px;
+  padding: 0 24px;
+  font-weight: 800;
+}
+
+.test-button,
+.download-button {
+  border-color: rgba(124, 58, 237, 0.72);
+  border-radius: 7px;
+  background: linear-gradient(135deg, #7c3aed, #3159f6);
+  box-shadow: 0 12px 30px rgba(37, 99, 235, 0.24);
+  padding: 0 18px;
+  font-weight: 800;
+}
+
+.test-button {
+  min-height: 42px;
+  font-size: 14px;
+}
+
+.qr-stage {
+  display: grid;
+  flex: 1;
+  min-height: 420px;
+  place-items: center;
+}
+
+.qr-stage canvas {
+  max-width: min(100%, 650px);
+  max-height: min(68vh, 650px);
+  border-radius: 28px;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.75), 0 0 45px rgba(37, 99, 235, 0.35);
+}
+
+.tip-box {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  border: 1px solid rgba(148, 163, 184, 0.16);
+  border-radius: 8px;
+  background: rgba(2, 6, 23, 0.34);
+  padding: 18px;
+  color: #dbe4f0;
+  line-height: 1.55;
+}
+
+.copy-button {
+  border-radius: 7px;
+  background: rgba(2, 6, 23, 0.32);
+  font-size: 18px;
+  font-weight: 800;
+}
+
+.download-button {
+  min-height: 62px;
+  font-size: 18px;
+}
+
+.copy-button {
+  min-height: 62px;
+}
+
+@media (max-width: 780px) {
+  .control-panel,
+  .preview-panel {
+    padding: 18px;
+  }
+
+  .qr-stage {
+    min-height: 300px;
+  }
+
+  .qr-stage canvas {
+    width: min(100%, 350px) !important;
+    height: min(100%, 350px) !important;
+  }
+
+  .help-button {
+    padding: 0 12px;
+  }
+}
