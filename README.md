@@ -8,7 +8,7 @@ Crie QR Codes para links, textos, telefones, e-mails, Wi-Fi e outros conteúdos,
 
 <br>
 
-[![Demo](https://img.shields.io/badge/🌐_Acessar_Demo-Adicionar_Link-4F46E5?style=for-the-badge)](COLOQUE_AQUI_O_LINK_DO_PROJETO)
+[![Demo](https://img.shields.io/badge/🌐_Acessar_Demo-Link-4F46E5?style=for-the-badge)](https://qr-code-generator-delta-five.vercel.app/)
 
 <br>
 
@@ -37,9 +37,8 @@ A aplicação também conta com uma interface moderna e responsiva, com suporte 
 
 A aplicação poderá ser acessada online em:
 
-👉 **[Acessar QR Code Generator](COLOQUE_AQUI_O_LINK_DO_PROJETO)**
+👉 **[Acessar QR Code Generator](https://qr-code-generator-delta-five.vercel.app/)**
 
-> Substitua `COLOQUE_AQUI_O_LINK_DO_PROJETO` pela URL do deploy.
 
 ---
 
