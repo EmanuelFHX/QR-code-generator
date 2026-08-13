@@ -37,7 +37,7 @@ A aplicação também conta com uma interface moderna e responsiva, com suporte 
 
 A aplicação poderá ser acessada online em:
 
-👉 **[Acessar QR Code Generator](COLOQUE_AQUI_O_LINK_DO_PROJETO)**
+👉 **[Acessar QR Code Generator]https://qr-code-generator-delta-five.vercel.app/**
 
 > Substitua `COLOQUE_AQUI_O_LINK_DO_PROJETO` pela URL do deploy.
 
